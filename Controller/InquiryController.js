@@ -91,7 +91,7 @@ export async function deleteInquiry(req,res) {              //delete the user on
 
                     await Inquiry.updateOne({id:req.params.id},{message:data.message});   //The customer can only change the message.     
                     res.status(200).json({
-                    message:"Inquiry delete Successfully"
+                    message:"Inquiry update Successfully"
                 });
                 return;
 
