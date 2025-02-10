@@ -7,10 +7,15 @@ import reviweRouter from "./Router/ReviweRouter.js";
 import jwt from "jsonwebtoken"; //get http reqest (json wep token eka amunamma)
 import dotenv from "dotenv" //hide github private things
 import inquiryRouter from "./Router/InquiryRouter.js";
+import cors from "cors"
+
 
 dotenv.config();//run env file
 
 const app=express();
+
+app.use(cors()); //enable cors origin resource sharing
+
 app.use(bodyParser.json());
 
  app.use((req,res,next)=>{
