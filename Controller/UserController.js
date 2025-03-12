@@ -54,7 +54,7 @@ export async function LoginUser(req,res){                    //To run await, the
                     },process.env.jwt_SECRET)
     
                     res.json({success:"Login Successfuly",token:token
-                        ,user:user
+                        ,user:user          
                     })
             }else{
                 res.status(401).json({error:"Login Field"}) 
