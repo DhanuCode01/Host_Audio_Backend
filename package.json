@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev":"nodemon index.js",
-    "start": "nodemon index.js",
-    "heroku-postbuild": "cd Host_Audio_Backend && npm install --only=dev && npm install && npm run build",
+    "start": "node index.js",
+    "heroku-postbuild": "npm install --only=dev && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
