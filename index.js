@@ -52,8 +52,13 @@ app.use("/api/reviwe",reviweRouter);
 app.use("/api/inquiries",inquiryRouter);
 
 
-app.listen(3000,()=>{
+/* app.listen(3000,()=>{
     console.log("Server port 3000 is running ")
     
 });
-
+ */
+// Dynamic Port for Heroku
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
