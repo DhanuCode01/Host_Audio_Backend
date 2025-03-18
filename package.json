@@ -4,10 +4,15 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev":"nodemon index.js",
+    "dev": "nodemon index.js",
     "start": "node index.js",
-    "heroku-postbuild": "npm install --only=dev && npm install && npm run build",
+    "heroku-postbuild": "npm install --only=dev && npm install",
+    "build": "echo 'Skipping build step, not required'",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "22.x",
+    "npm": "10.x"
   },
   "author": "",
   "license": "ISC",
