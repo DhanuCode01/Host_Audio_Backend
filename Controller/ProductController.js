@@ -118,3 +118,29 @@ export async function deleteProduct(req,res){   //Delete product
            error:"database connection un successfully"})
     }
 }
+
+
+export async function getOnePruduct(req,res) {             //get product used key{parameeter}
+
+    try {
+                const key=req.params.key;
+                const product=await products.findOne({key:key});
+
+                if (product==null){
+                    res.status(404).json({
+                        message:"product not Found"
+                    })
+                    return;
+                }
+
+                res.json(product)
+                return;
+    } catch (error) {
+        res.status(500).json({
+            message:"Field get Product"
+        })
+        return;
+    }
+              
+    
+}
