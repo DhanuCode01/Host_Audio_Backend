@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken"; //get http reqest (json wep token eka amunamma)
 import dotenv from "dotenv" //hide github private things
 import inquiryRouter from "./Router/InquiryRouter.js";
 import cors from "cors"
+import OrderRouter from "./Router/OrderRouter.js";
 
 
 dotenv.config();//run env file
@@ -50,6 +51,7 @@ app.use("/api/user",userRouter);
 app.use("/api/product",productRouter);
 app.use("/api/reviwe",reviweRouter);
 app.use("/api/inquiries",inquiryRouter);
+app.use("/api/order",OrderRouter);
 
 
 /* app.listen(3000,()=>{
