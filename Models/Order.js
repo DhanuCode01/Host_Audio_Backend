@@ -15,7 +15,7 @@ const orderSchema=new mongoose.Schema({
         required:true,
         default:Date.now
     },
-    orderedItem:{
+    orderedItems:{
         type:[
             {   product:{
                     key:{
