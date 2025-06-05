@@ -43,7 +43,13 @@ export async function createOrder(req,res) {
                                                     res.status(404).json({
                                                         message:"product with key "+data.orderedItems[i].key+" not Found"
                                                     })
-                                                    return
+                                                    return;
+                                                }
+                                                if (product.availability == false){
+                                                    res.status(400).json({
+                                                        message:"Product Width key"+ data.orderedItems[i].key+"is not available",
+                                                    })
+                                                    return;
                                                 }
 
 
@@ -91,5 +97,79 @@ export async function createOrder(req,res) {
                         }
 
 
+    
+}
+
+
+export async function getQuote(req,res) {
+        const data=req.body;
+        const orderInfo={               //create variable manage all data
+            orderedItems:[]              //first Asaing empty array
+
+        }
+    
+    let oneDayCost=0;// Initialize total cost for one day
+    // Loop through each item in the orderedItem array received from the frontend
+    for(let i=0;  i<data.orderedItems.length;  i++){       //data  "orderedItem" array get front end
+                    try {
+                                    const product=await products.findOne({key: data.orderedItems[i].key});// "products"   //database  ".findOne" //find   "({key: data.orderedItem[i].key});" //The 1st key is the product "key" to be find, The" data.orderedItem[i].key" is the front end sent order item key.
+
+                                                if(product ==null){
+                                                    res.status(404).json({
+                                                        message:"product with key "+data.orderedItems[i].key+" not Found"
+                                                    })
+                                                    return
+                                                }
+                                                if (product.availability == false){
+                                                    res.status(400).json({
+                                                        message:"Product Width key"+ data.orderedItems[i].key+"is not available",
+                                                    })
+                                                    return;
+                                                }
+
+
+                                                orderInfo.orderedItems.push({        //order orderedItem array details assign order information details
+                                                    product:{
+                                                        key:product.key,
+                                                        name:product.name,
+                                                        image:product.Image[0],     // Use the first image from the product
+                                                        price:product.price
+                                                    },
+                                                    quantity:data.orderedItems[i].quantity
+                                                })
+                                                oneDayCost += product.price*data.orderedItems[i].quantity;        // Calculate total cost by multiplying product price by the ordered quantity
+
+
+                        } catch (error) {
+                                res.status(500).json({
+                                    message:"Failed to create order"
+                                }) 
+                                
+                                return
+                        }
+        
+    }
+
+
+            // Assign order details from the received data
+            orderInfo.days=data.days;
+            orderInfo.startingDate=data.startingDate;
+            orderInfo.endingDate=data.endingDate;
+            orderInfo.totalAmount=oneDayCost*data.days;// Calculate the total order amount by multiplying the one-day cost with the total days
+
+                        try {           
+                                        res.status(200).json({
+                                            message:"Order Quatation",
+                                            total:orderInfo.totalAmount
+                                        }) 
+                            
+                        } catch (e) {
+                                        res.status(500).json({
+                                            message:"Field to Create order"
+                                        }) 
+                        }
+
+
+    
     
 }
