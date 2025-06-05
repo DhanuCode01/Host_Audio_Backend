@@ -5,7 +5,7 @@ import { isToken } from "../Validation/TokenValidation.js";
 export async function createOrder(req,res) {
     const data=req.body;
     const orderInfo={               //create variable manage all data
-        orderedItem:[]              //first Asaing empty array
+        orderedItems:[]              //first Asaing empty array
 
     }
     isToken(req,res);//if you have a token
@@ -35,28 +35,28 @@ export async function createOrder(req,res) {
     let oneDayCost=0;// Initialize total cost for one day
 
     // Loop through each item in the orderedItem array received from the frontend
-    for(let i=0;  i<data.orderedItem.length;  i++){       //data  "orderedItem" array get front end
+    for(let i=0;  i<data.orderedItems.length;  i++){       //data  "orderedItem" array get front end
         try {
-            const product=await products.findOne({key: data.orderedItem[i].key});// "products"   //database  ".findOne" //find   "({key: data.orderedItem[i].key});" //The 1st key is the product "key" to be find, The" data.orderedItem[i].key" is the front end sent order item key.
+            const product=await products.findOne({key: data.orderedItems[i].key});// "products"   //database  ".findOne" //find   "({key: data.orderedItem[i].key});" //The 1st key is the product "key" to be find, The" data.orderedItem[i].key" is the front end sent order item key.
 
                 if(product ==null){
                     res.status(404).json({
-                        message:"product with key "+data.orderedItem[i].key+" not Found"
+                        message:"product with key "+data.orderedItems[i].key+" not Found"
                     })
                     return
                 }
 
 
-                orderInfo.orderedItem.push({        //order orderedItem array details assign order information details
+                orderInfo.orderedItems.push({        //order orderedItem array details assign order information details
                     product:{
                         key:product.key,
                         name:product.name,
                         image:product.Image[0],     // Use the first image from the product
                         price:product.price
                     },
-                    quantity:data.orderedItem[i].quantity
+                    quantity:data.orderedItems[i].quantity
                 })
-                oneDayCost += product.price*data.orderedItem[i].quantity;        // Calculate total cost by multiplying product price by the ordered quantity
+                oneDayCost += product.price*data.orderedItems[i].quantity;        // Calculate total cost by multiplying product price by the ordered quantity
 
 
         } catch (error) {
