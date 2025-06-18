@@ -6,3 +6,14 @@ if (req.user==null){           //if you have a token
     return
 }
 }
+
+
+
+
+export function isTokenCheck(req){
+    let isToken=true;              //this Will change later
+    if(req.user==null){     //If you are an customer
+        isToken=false;
+    }
+    return isToken;
+}

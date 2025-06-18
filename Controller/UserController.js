@@ -2,6 +2,8 @@ import users from "../Models/User.js";
 import bcrypt from "bcrypt";
 import jwt  from "jsonwebtoken"; //get http reqest (json wep token eka amunamma)
 import dotenv from "dotenv"
+import { isItAdmin } from "../Validation/UserValidation.js";
+import { isToken, isTokenCheck } from "../Validation/TokenValidation.js";
 
 dotenv.config();
 
@@ -71,3 +73,33 @@ export async function LoginUser(req,res){                    //To run await, the
     }
 }
     
+export async function getAllUsers(req,res) {
+                                                    //get all users
+        try {
+
+                if(!isTokenCheck(req)){//if you have a token
+                    res.status(404).json({
+                        Message:"pleace login and Try again"   
+                    })
+                    return;
+                }
+
+                if (!isItAdmin(req)){              //check  authorization(is check the user admin )
+                    res.status(403).json({
+                        Message:"your are not authorized to perform this acction"   
+                    })
+                    return;
+                }
+                const user=await users.find();
+                res.status(200).json({
+                    user:user
+                })
+        
+            }
+                catch(error){                                                       //If the lines are not running, it is a connection error.
+                            res.status(500).json({
+                            error:"database connection un successfully"})
+                }
+        
+    
+}
